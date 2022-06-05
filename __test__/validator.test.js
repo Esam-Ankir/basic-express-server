@@ -6,7 +6,7 @@ const request = supertest(server.app);
 describe("Validator Tests", () => {
 
     test("There is NO name in the query string", async () => {
-        const response = await request.get('/person');
+        const response = await request.get('/person?name=""');
         expect(response.status).toEqual(500);
     });
 
@@ -21,13 +21,13 @@ describe("Validator Tests", () => {
     })
 
     test("The name is empty", async () => {
-        const response = await request.get('/person?name=');
-        expect(response.body).toEqual({ "name": "user" })
+        const response = await request.get('/person?name=""');
+        expect(response.status).toEqual(500);
     })
 
     test("The name is not a string", async () => {
         const response = await request.get('/person?name=esam%');
-        expect(response.body).toEqual({ "name": "wrong Name" })
+        expect(response.status).toEqual(500);
     })
 
 })
